@@ -1,0 +1,1 @@
+export default class c_component_style {};
