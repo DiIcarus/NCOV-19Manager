@@ -1,44 +1,54 @@
-import React,{Component} from 'react';
+import React, { Component } from "react";
 //style importer
-import * as style__ from './style';
+import * as s__ from "./style";
 //component importer
-import SignInForm from '../SignInForm/index';
+import SignInForm from "../SignInForm/index";
 //utils importer
-
-type State = typeof initState;
-
-const initState = {
-  status: false as boolean
+//global store
+import {connect} from "react-redux";
+import {MainState} from "./../../store/index";
+//type
+import {SignInState} from "./../../store/SignInForm/type";
+//action
+import {setDisplaySignIn} from "./../../store/SignInForm/action";
+interface Props {
+  SignInState:SignInState
+  setDisplaySignIn: typeof setDisplaySignIn
 }
 
-class UsersComponent extends Component<{},State>{
+class UsersComponent extends Component<Props,{}> {
 
-    state = initState
+  formDisplay = () => {
+    this.props.setDisplaySignIn(true);
+	};
+	
+  renderSignInForm = () => {
+    return (
+      <SignInForm
+      />
+    );
+  };
 
-    formDisplay = (status:boolean) => {
-        this.setState({
-            status
-        })
-    }
-    renderSignInForm = () => {
-        return  <SignInForm isFormDisPlay={this.formDisplay} stateUser={this.state.status}/>
-    }
+  renderUsersArea = () => {
+    return (
+      <s__.Container onClick={this.formDisplay}>
+					<s__.HeaderBtn>Sign in</s__.HeaderBtn>
+      </s__.Container>
+    );
+  };
 
-    renderUsersArea = () =>{
-        return  <style__.Container onClick={()=>this.formDisplay(!this.state.status)}>
-                    <button>Sign in</button>
-                </style__.Container>
-    }
-
-    render(){
-        return (
-            <React.Fragment>
-                {this.renderUsersArea()}
-                {this.state.status ? this.renderSignInForm():<React.Fragment />}
-            </React.Fragment>
-        )
-    }
+  render() {
+    return (
+      <React.Fragment>
+        {this.renderUsersArea()}
+        {this.renderSignInForm()}
+      </React.Fragment>
+    );
+  }
 }
 
-export default UsersComponent;
+const mapStateToProps = (state:MainState) =>({
+  SignInState:state.SignInState
+});
 
+export default connect(mapStateToProps,{setDisplaySignIn})(UsersComponent);

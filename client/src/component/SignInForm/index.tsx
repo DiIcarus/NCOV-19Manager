@@ -1,79 +1,103 @@
-import React,{Component} from 'react';
-import{ 
-	Link,
-	Route
-} from "react-router-dom";
+import React, { Component, ChangeEvent } from "react";
 //style importer
-// import * as style__ from './style';
+import * as s__ from "./style";
+//module importer
+import APIDemo from "./../../modules/api/fetchAPI";
 //component importer
 //utils importer
+//global store
+////init
+import { connect } from "react-redux";
+import { MainState } from "./../../store/index";
+//type importer
+import { SignInState } from "./../../store/SignInForm/type";
+//action importer
+import {
+  setIdentityCardSignIn,
+  setPasswordSignIn,
+  setDisplaySignIn,
+} from "./../../store/SignInForm/action";
+
 interface Props {
-	isFormDisPlay: (status:boolean) => void,
-	stateUser:boolean
+  SignInState: SignInState;
+  setIdentityCardSignIn: typeof setIdentityCardSignIn;
+  setPasswordSignIn: typeof setPasswordSignIn;
+  setDisplaySignIn: typeof setDisplaySignIn;
 }
-type State = typeof initState;
 
-const initState = {
-  status: false as boolean
+class SignInForm extends Component<Props, {}> {
+  module = new APIDemo();
+
+  formCancel = () => {
+    this.props.setDisplaySignIn(false);
+  };
+
+  redirectRegister = () => {
+    this.formCancel();
+  };
+
+  identityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.props.setIdentityCardSignIn(event.target.value);
+  };
+
+  passwordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.props.setPasswordSignIn(event.target.value);
+  };
+
+  signIn = () => {
+    const formData = new FormData();
+    formData.append("identityCard", this.props.SignInState.identityCard);
+    formData.append("password", this.props.SignInState.password);
+    this.module.userLogin(
+      formData,
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  };
+
+  formSignin = () => {
+    return (
+      <s__.Container>
+        <div
+          style={{ display: this.props.SignInState.display ? "block" : "none" }}
+        >
+          <label>CMND:</label>
+          <input
+            type="text"
+            value={this.props.SignInState.identityCard}
+            onChange={this.identityChange}
+          />
+          <label>Password:</label>
+          <input
+            type="password"
+            value={this.props.SignInState.password}
+            onChange={this.passwordChange}
+          />
+          <span onClick={this.signIn}>Sign-In</span>
+          <s__.LinkRoute to="/register" onClick={() => this.redirectRegister()}>
+            Bạn chưa có tài khoản ?
+          </s__.LinkRoute>
+          <span onClick={this.formCancel}>Cancel</span>
+        </div>
+      </s__.Container>
+    );
+  };
+
+  render() {
+    return <React.Fragment>{this.formSignin()}</React.Fragment>;
+  }
 }
-export default class SignInForm extends Component<Props,State>{
-	state = initState
 
-	formDisplay = () => {
-        this.props.isFormDisPlay(!this.props.stateUser);
-	}
+const mapStateToProps = (state: MainState) => ({
+  SignInState: state.SignInState,
+});
 
-	formRegisterDisplay = (status:boolean) => {
-		this.setState({
-			status
-		})
-	}
-
-	formRegister = () => {
-		return <Route path="/register">
-					<div style={{position:"absolute", top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>
-						<form action="">
-							<label> Họ và tên: <input type="text"/></label>
-							<hr/>
-							<label> CMND: <input type="text"/></label>
-							<hr/>
-							<label> Ngày sinh: <input type="text"/></label>
-							<hr/>
-							<label> Giới tính: <input type="text"/></label>
-							<hr/>
-							<label> Địa chỉ: <input type="text"/></label>
-							<hr/>
-							<label> Số điện thoại: <input type="text"/></label>
-							<hr/>
-							<label> Email: <input type="text"/></label>
-							<hr/>
-							<label>Password: <input type="password"/></label>
-							<hr/>
-							<span onClick={()=>this.formRegisterDisplay(!this.state.status)}>Đăng ký</span>
-							<hr/>
-							<span onClick={this.formDisplay}>Cancel</span>
-						</form>
-					</div>
-				</Route>
-	}
-
-	formSignin = () => {
-		return <div style={{position:"absolute", top:"50%",left:"50%",transform:"translate(-50%,-50%)"}}>
-				<form action="">
-					<label> CMND: <input type="text"/></label>
-					<hr/>
-					<label>Password: <input type="password"/></label>
-					<hr/>
-					<Link to="/register" onClick={()=>this.formRegisterDisplay(!this.state.status)}>Bạn chưa có tài khoản ?</Link>
-					<hr/>
-					<span onClick={this.formDisplay}>Cancel</span>
-				</form>
-			</div>
-	}
-
-    render(){
-      return (
-	  	<>{this.state.status?this.formRegister():this.formSignin()}</>
-	  )
-    }
-};
+export default connect(mapStateToProps, {
+  setIdentityCardSignIn,
+  setPasswordSignIn,
+  setDisplaySignIn,
+})(SignInForm);

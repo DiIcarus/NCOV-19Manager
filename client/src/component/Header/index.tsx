@@ -1,34 +1,35 @@
-import React,{Component} from 'react';
+import React, { Component } from "react";
 //style importer
-import * as style__ from './style';
+import * as s__ from "./style";
 //component importer
-import MainMenu from '../MainMenu/index';
-import UsersComponent from '../UsersComponent/index';
+import MainMenu from "../MainMenu/index";
+import UsersComponent from "../UsersComponent/index";
 //utils importer
+//config importer
+import * as config__ from "./../../config/c__component";
 
 type State = typeof initState;
 const initState = {
-  string: "Hello my friend" as string
-}
-class Header extends Component<{},State>{
+  string: "Hello my friend" as string,
+};
+class Header extends Component<{}, State> {
+  state = initState;
 
-    state = initState
-
-    render(){
-        return (
-        <style__.Container>
-            <style__.HotLine>
-                <h5>Hot line: 0942214074</h5>
-            </style__.HotLine>
-            <style__.MiddleMenu>
-                <MainMenu 
-                />
-            </style__.MiddleMenu>
-            <UsersComponent/>
-        </style__.Container>
-        )
-    }
+  render() {
+    return (
+      <s__.Container>
+        <s__.HotLine>
+					<p>{config__.HOT_LINE_PHONE}</p>
+        </s__.HotLine>
+        <s__.MiddleMenu>
+          <MainMenu />
+        </s__.MiddleMenu>
+				<s__.UsersArea>
+					<UsersComponent />
+				</s__.UsersArea>
+      </s__.Container>
+    );
+  }
 }
 
 export default Header;
-
