@@ -3,7 +3,7 @@ import {SignInState,SET_IDENTITYCARD_SIGNIN,SET_PASSWORD_SIGNIN,SET_DISPLAY_SIGN
 const initState:SignInState = Object.freeze({
   identityCard:'' as string,
   password: '' as string,
-  display: true
+  display: false
 })
 
 export function SignInReducer(

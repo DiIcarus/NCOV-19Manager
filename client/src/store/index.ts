@@ -5,14 +5,17 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { combineReducers } from "redux";
 
 //reducer import
-import {appReducer} from './App/reducer';
+// import {appReducer} from './App/reducer';
 import {SignInReducer} from './SignInForm/reducer';
 import {RegisterReducer} from './RegisterForm/reducer';
+import {UsersReducer} from './User/reducer';
+import {UserssignedReducer} from './UsersSigned/reducer';
 //combine reducer
 const rootReducer = combineReducers({
-  AppState:appReducer,
+  UserssignedState:UserssignedReducer,
   SignInState:SignInReducer,
-  RegisterState:RegisterReducer
+  RegisterState:RegisterReducer,
+  UsersState:UsersReducer
 });
 
 export type MainState = ReturnType<typeof rootReducer>;
