@@ -1,4 +1,4 @@
-import { 
+import {
   UserssignedState,
   UserssignedTypes,
   SET_AVATAR_USERSSIGNED,
@@ -14,29 +14,31 @@ import {
   SET_PHONENUMBER_USERSSIGNED,
   SET_DATEOFBIRTH_USERSSIGNED,
   SET_ADDRESS_USERSSIGNED,
-  SET_V_USERSSIGNED
-} from './type';
+  SET_V_USERSSIGNED,
+  SET_TOKEN_USERSSIGNED,
+} from "./type";
 
 const initState: UserssignedState = Object.freeze({
-  avatar :[] as File[],
-  gender :'' as string,
-  isActive:false as boolean,
-  gps:[] as string[],
-  idRole :{
-    __id:'',
-    name:'',
-    __v: '',
+  avatar: [] as string[],
+  gender: "" as string,
+  isActive: false as boolean,
+  gps: [] as string[],
+  idRole: {
+    __id: "",
+    name: "",
+    __v: "",
   },
-  _id:'' as string,
-  fullName:'' as string,
-  email:'' as string,
-  identityCard:'' as string,
-  password:'' as string,
-  phoneNumber:'' as string,
-  dateOfBirth:'' as string,
-  address:'' as string,
-  __v:'' as string,
-})
+  _id: "" as string,
+  fullName: "" as string,
+  email: "" as string,
+  identityCard: "" as string,
+  password: "" as string,
+  phoneNumber: "" as string,
+  dateOfBirth: "" as string,
+  address: "" as string,
+  __v: "" as string,
+  token: "" as string,
+});
 
 export function UserssignedReducer(
   previousState = initState,
@@ -45,73 +47,79 @@ export function UserssignedReducer(
   switch (action.type) {
     case SET_AVATAR_USERSSIGNED:
       return {
+        ...previousState,
         avatar: action.payload,
-        ...previousState
       };
     case SET_GENDER_USERSSIGNED:
       return {
         ...previousState,
-        gender:action.payload 
+        gender: action.payload,
       };
     case SET_ISACTIVE_USERSSIGNED:
       return {
-        isActive:action.payload,
-        ...previousState
+        ...previousState,
+        isActive: action.payload,
       };
     case SET_GPS_USERSSIGNED:
       return {
         ...previousState,
-        gps:action.payload
+        gps: action.payload,
       };
     case SET_IDROLE_USERSSIGNED:
       return {
+        ...previousState,
         idRole: action.payload,
-        ...previousState
       };
-      case SET_ID_USERSSIGNED:
+    case SET_ID_USERSSIGNED:
       return {
+        ...previousState,
         _id: action.payload,
-        ...previousState
       };
     case SET_FULLNAME_USERSSIGNED:
       return {
         ...previousState,
-        fullName:action.payload 
+        fullName: action.payload,
       };
     case SET_EMAIL_USERSSIGNED:
       return {
-        email:action.payload,
-        ...previousState
+        ...previousState,
+        email: action.payload,
       };
     case SET_IDENTITYCARD_USERSSIGNED:
       return {
         ...previousState,
-        identityCard:action.payload
+        identityCard: action.payload,
       };
     case SET_PASSWORD_USERSSIGNED:
       return {
+        
+        ...previousState,
         password: action.payload,
-        ...previousState
       };
-      case SET_PHONENUMBER_USERSSIGNED:
+    case SET_PHONENUMBER_USERSSIGNED:
       return {
+        ...previousState,
         phoneNumber: action.payload,
-        ...previousState
       };
     case SET_DATEOFBIRTH_USERSSIGNED:
       return {
         ...previousState,
-        dateOfBirth:action.payload 
+        dateOfBirth: action.payload,
       };
     case SET_ADDRESS_USERSSIGNED:
       return {
-        address:action.payload,
-        ...previousState
+        ...previousState,
+        address: action.payload,
       };
     case SET_V_USERSSIGNED:
       return {
         ...previousState,
-        __v:action.payload
+        __v: action.payload,
+      };
+    case SET_TOKEN_USERSSIGNED:
+      return {
+        ...previousState,
+        token: action.payload,
       };
     default:
       return previousState;

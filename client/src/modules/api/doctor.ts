@@ -1,11 +1,11 @@
 import axios from "axios";
-import * as config from './../config';
+import * as config__ from './../config';
 
-const DOCTOR_REGISTER: string = "/api/doctor/register";
-const DOCTOR_SIGNIN: string = "/api/user/login"
-const DOCTOR_REGISTER_PATIENT: string = "/api/doctor/register-patient";
-const DOCTOR_GETLIST_PATIENT: string = "/api/doctor/all-patient"
-const DOCTOR_ADDPATIENTOROOM: string = "/api/doctor/add-patient-to-room/";
+const DOCTOR_REGISTER: string = config__.DOCTORREGISTER;
+const DOCTOR_SIGNIN: string = config__.DOCTORSIGNIN;
+const DOCTOR_REGISTER_PATIENT: string = config__.DOCTORREGISTERPATIENT;
+const DOCTOR_GETLIST_PATIENT: string = config__.DOCTORGETLISTPATIENT;
+const DOCTOR_ADDPATIENTOROOM: string = config__.DOCTORADDPATIENTTOROOM;
 
 export default class DoctorAPI {
 
@@ -52,6 +52,11 @@ export default class DoctorAPI {
 
   getListPatient = (token: string, response: any, error: any) => {
     axios.get(DOCTOR_GETLIST_PATIENT, { headers: { Authorization: token } })
+      .then(response)
+      .catch(error);
+  };
+  getList = (token: string,params:string, response: any, error: any) => {
+    axios.get(DOCTOR_GETLIST_PATIENT+params, { headers: { Authorization: token } })
       .then(response)
       .catch(error);
   };

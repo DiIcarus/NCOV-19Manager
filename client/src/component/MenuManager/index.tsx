@@ -14,8 +14,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 //import component
 import NewsCard from '../CardNews/index';
 import { Route, Link } from "react-router-dom";
-import { HoverMode } from 'react-particles-js';
 import { List } from "@material-ui/core";
+import { HoverMode } from 'react-particles-js';
 
 class MenuManager extends Component<{}, {}> {
 
@@ -72,7 +72,7 @@ class MenuManager extends Component<{}, {}> {
   }
 
   renderBackground = () => {
-    return <s__.Particless params={{
+    return  <s__.Particless params={{
       "particles": {
           "number": {
               "value": 50
@@ -111,7 +111,7 @@ class MenuManager extends Component<{}, {}> {
           }
       }
     }}/>
-  }
+ }
   render() {
     return  (
       <s__.Container>

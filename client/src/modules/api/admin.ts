@@ -1,9 +1,9 @@
 import axios from "axios";
-
-const GETALL: string = "/api/admin/all";
-const DELETE: string = "/api/admin/";
-const UPDATE: string = "/api/admin/";
-const ADDSHIFTTODOCTOR: string = "/api/admin/add-doctor-to-shift/";
+import * as config__ from './../config';
+const GETALL: string = config__.ADMINURLALL;
+const DELETE: string = config__.ADMINURL;
+const UPDATE: string = config__.ADMINURL;
+const ADDSHIFTTODOCTOR: string = config__.ADMINADDSHIFT;
 export default class AdminAPI {
 
   getAll = (token: string, response: any, error: any) => {
@@ -11,7 +11,11 @@ export default class AdminAPI {
       .then(response)
       .catch(error);
   };
-
+  getList = (token: string,params:string, response: any, error: any) => {
+    axios.get(GETALL+params, { headers: { Authorization: token } })
+      .then(response)
+      .catch(error);
+  };
   deleteUser = (token: string, idUser: string, response: any, error: any) => {
     axios({
       method: 'DELETE',

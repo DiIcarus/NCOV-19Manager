@@ -34,11 +34,12 @@ import { connect } from 'react-redux';
 import {MainState} from '../../store/index';
 //type
 import {UsersState} from '../../store/User/type';
-
+import {UserssignedState} from "../../store/UsersSigned/type";
 //typeInput
 
 interface Props {
-  UsersState: UsersState
+  UsersState: UsersState,
+  UserssignedState: UserssignedState
 }
 
 type State =  typeof initState;
@@ -85,9 +86,9 @@ const initState = {
 }
 
 class InfoTableUser extends Component<Props, State> {
-  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTJjYjEyNzhlN2M0MjExMDc4OWQ0ZiIsImlkUm9sZSI6eyJfaWQiOiI1ZWEyY2IxMDc4ZTdjNDIxMTA3ODlkNGUiLCJuYW1lIjoiU1VQRVJfQURNSU4iLCJfX3YiOjB9LCJpc0FjdGl2ZSI6ZmFsc2UsInJvbGVOYW1lIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE1ODc4MzgyNTEsImV4cCI6MTU4Nzg4MTQ1MX0.SoFJYxLZ_zt_7NmHtWzjEpC5T7iAOY5UtX81Nv8zbp8";
   state = initState;
   adminApi = new AdminAPI();
+  token = window.sessionStorage.accessToken;
   doctorApi = new DoctorAPI();
   roomApi = new RoomAPI();
   shiftApi = new ShiftAPI();
@@ -95,11 +96,12 @@ class InfoTableUser extends Component<Props, State> {
 
   //circle
   componentDidMount(){
-    console.log(this.state);
+    // console.log(this.state);
     this.GETAll();
-    this.GETAllShift();
+    // this.GETAllShift();
     setInterval(()=>{
-      console.log(this.state);
+      console.log("state",this.state);
+      // console.log(this.props.UserssignedState.token);
     },2000)
   }
 
@@ -119,7 +121,8 @@ class InfoTableUser extends Component<Props, State> {
   }
 
   SearchValueInputSearch = () => {
-    console.log('SearchValueInputSearch')
+    console.log('SearchValueInputSearch',+this.state.valueInputSearch+"[[[[")
+    this.GetList('?search='+this.state.valueInputSearch.trim());
   }
 
   DeleteCurrent = (currentId:string) => {
@@ -147,7 +150,7 @@ class InfoTableUser extends Component<Props, State> {
   GETAll = () =>{
     if(this.token){
       this.adminApi.getAll(this.token,(res:any)=>{
-        console.log(res.data);
+        console.log("Get all",res.data);
         this.setState({
           users:res.data.users
         })
@@ -174,6 +177,18 @@ class InfoTableUser extends Component<Props, State> {
     }
   }
 
+  GetList = (params:string) => {
+    this.adminApi.getList(this.token,params,
+      (res:any)=>{
+        console.log(res)
+        this.setState({
+          users:res.data.users
+        })
+      },(err:any)=>{
+        console.log(err)
+      }
+    )
+  }
   ////
   getIdRow=(users:api__.Users,featureType: "update" | "delete" | "insert")=>{
     switch(featureType){
@@ -481,6 +496,7 @@ class InfoTableUser extends Component<Props, State> {
       >
         <h1 style={{marginTop:"0px"}}>User Manager</h1>
         <s__.FeatureArea>
+          <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton>
           {/* <s__.FeatureButton onClick={()=>this.setShowPopupByType("insert")}><p>Add Shift To Doctor</p></s__.FeatureButton> */}
           <s__.FeatureButton style={{backgroundColor:this.state.insertmode?"tomato":""}} onClick={this.setInsertMode}><p>{this.state.insertmode?"Cancel":"Add Shift To Doctor"}</p></s__.FeatureButton>
           <s__.FeatureButton style={{backgroundColor:this.state.updatemode?"tomato":""}} onClick={this.setUpdateMode}><p>{this.state.updatemode?"Cancel":"Update User"}</p></s__.FeatureButton>
@@ -535,6 +551,7 @@ class InfoTableUser extends Component<Props, State> {
   }
 
   renderChildTableRoom = () => {
+    console.log("showinfo",this.state.users);
     return this.state.users.map((row) => (
       <s__.TableRowInfo key={row._id} onClick={(this.state.updatemode || this.state.insertmode)?()=>this.getIdRow(row,this.state.featureType):()=>this.setIdCurrent(row._id)}
       onFocus={()=>this.setIdCurrent(row._id)}>
@@ -586,19 +603,15 @@ class InfoTableUser extends Component<Props, State> {
   }
 
   renderPaper = () =>{
+    let arr = new Array(this.state.numberPaper);
     return (
-      // <s__.PaperDiv>
-      //   <s__.PaperDivNumber >
-      //     <p style={{margin:"0px"}} >1</p>
-      //     <p style={{margin:"0px"}} >2</p>
-      //     <p style={{margin:"0px"}} >3</p>
-      //   </s__.PaperDivNumber  >
-      // </s__.PaperDiv>
         <s__.PaperDiv>
-          <s__.PaperDivNumber><p>1</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>2</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>3</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>4</p></s__.PaperDivNumber>
+          {
+          [...Array(this.state.numberPaper).keys()].map((value,index)=>{
+            return <s__.PaperDivNumber onClick={()=>{this.GetList('?page='+value)}}><p>{value+1}</p></s__.PaperDivNumber>
+          })
+          }
+          
         </s__.PaperDiv>
     )
   }
@@ -619,21 +632,7 @@ class InfoTableUser extends Component<Props, State> {
 }
 
 const mapStateToProps = (state:MainState) =>({
-  UsersState: state.UsersState
+  UsersState: state.UsersState,
+  UserssignedState: state.UserssignedState
 });
 export default connect(mapStateToProps,{})(InfoTableUser);
-
-
-// demoClickRedirect = () => {
-//   this.setState({
-//     demo:false
-//   })
-// }
-
-// demoRedirect = ()=>{
-//   if(this.state.demo){
-//     return <React.Fragment/>
-//   }else{
-//     return <Redirect to="/about-us"/>
-//   }
-// }

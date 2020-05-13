@@ -1,5 +1,6 @@
+import { HoverMode } from "react-particles-js";
 import React, { Component, ChangeEvent } from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 //style importer
 import * as style__ from "./style";
 //component importer
@@ -7,7 +8,6 @@ import * as style__ from "./style";
 //import module
 import APIDemo from "../../modules/api/doctor";
 /////
-
 
 /////
 //utils importer
@@ -73,23 +73,28 @@ class FormRegister extends Component<Props, {}> {
   };
 
   handleRegister = () => {
-    const formdata = new FormData();
-    formdata.append("address", this.props.RegisterState.address);
-    formdata.append("password", this.props.RegisterState.password);
-    formdata.append("phoneNumber", this.props.RegisterState.phoneNumber);
-    formdata.append("dateOfBirth", this.props.RegisterState.dateOfBirth);
-    formdata.append("identityCard", this.props.RegisterState.identityCard);
-    formdata.append("fullName", this.props.RegisterState.fullName);
-    formdata.append("email", this.props.RegisterState.email);
-    console.log(formdata);
-    this.module.userRegister(
-      formdata,
-      (res: any) => {
-        console.log(res);
-      },
-      (err: any) => {
-        console.log(err);
-      }
+    // const formdata = new FormData();
+    // formdata.append("address", this.props.RegisterState.address);
+    // formdata.append("password", this.props.RegisterState.password);
+    // formdata.append("phoneNumber", this.props.RegisterState.phoneNumber);
+    // formdata.append("dateOfBirth", this.props.RegisterState.dateOfBirth);
+    // formdata.append("identityCard", this.props.RegisterState.identityCard);
+    // formdata.append("fullName", this.props.RegisterState.fullName);
+    // formdata.append("email", this.props.RegisterState.email);
+    // console.log(formdata);
+    // this.module.userRegister(
+    //   formdata,
+    //   (res: any) => {
+    //     console.log(res);
+    //   },
+    //   (err: any) => {
+    //     console.log(err);
+    //   }
+    // );
+    return (
+      <Route>
+        <Redirect to={{ pathname: "/signin" }} />
+      </Route>
     );
   };
 
@@ -97,6 +102,7 @@ class FormRegister extends Component<Props, {}> {
     return (
       <Route path="/register">
         <style__.Container>
+          {/* <h1>Register</h1> */}
           <style__.TextFieldArea>
             <style__.TextInput
               variant="outlined"
@@ -169,19 +175,78 @@ class FormRegister extends Component<Props, {}> {
             />
           </style__.TextFieldArea>
           <style__.ButtonRegister
-            variant="outlined" 
+            variant="outlined"
             color="primary"
             size="large"
             onClick={() => this.handleRegister()}
-          >Đăng ký
+          >
+            Submit Register
           </style__.ButtonRegister>
         </style__.Container>
       </Route>
     );
   };
 
+  demoRedirect = () => {
+    if (true) {
+      return <React.Fragment />;
+    } else {
+      return <Redirect to="/about-us" />;
+    }
+  };
+  renderBackground = () => {
+    return (
+      <style__.Particless
+        params={{
+          particles: {
+            number: {
+              value: 50,
+            },
+            size: {
+              value: 1.3,
+              anim: {
+                speed: 1,
+                size_min: 0.8,
+              },
+            },
+            line_linked: {
+              enable: false,
+              blink: true,
+              width: 1,
+            },
+            color: {
+              value: "#fff",
+            },
+          },
+          interactivity: {
+            events: {
+              onhover: {
+                enable: true,
+                mode: "connect" as HoverMode,
+              },
+            },
+            modes: {
+              connect: {
+                distance: 50,
+                radius: 50,
+                lineLinked: {
+                  opacity: 0.2,
+                },
+              },
+            },
+          },
+        }}
+      />
+    );
+  };
+
   render() {
-    return <React.Fragment>{this.formRegister()}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {this.renderBackground()}
+        {this.formRegister()}
+      </React.Fragment>
+    );
   }
 }
 

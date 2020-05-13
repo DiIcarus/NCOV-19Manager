@@ -35,9 +35,11 @@ import { connect } from 'react-redux';
 import {MainState} from '../../store/index';
 //type
 import {UsersState} from '../../store/User/type';
+import {UserssignedState} from '../../store/UsersSigned/type';
 
 interface Props {
-  UsersState: UsersState
+  UsersState: UsersState,
+  UserssignedState: UserssignedState
 }
 
 type State =  typeof initState;
@@ -92,7 +94,7 @@ const initState = {
 }
 
 class InfoTablePatient extends Component<Props, State> {
-  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTJjYjEyNzhlN2M0MjExMDc4OWQ0ZiIsImlkUm9sZSI6eyJfaWQiOiI1ZWEyY2IxMDc4ZTdjNDIxMTA3ODlkNGUiLCJuYW1lIjoiU1VQRVJfQURNSU4iLCJfX3YiOjB9LCJpc0FjdGl2ZSI6ZmFsc2UsInJvbGVOYW1lIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE1ODc4NjgwNDQsImV4cCI6MTU4NzkxMTI0NH0.Yc93r0R4HKGQK71_kTaBPSDrt-3B_epZ1MrCrw4CTuw";
+  token = window.sessionStorage.accessToken;
   state = initState;
   adminApi = new AdminAPI();
   doctorApi = new DoctorAPI();
@@ -152,6 +154,7 @@ class InfoTablePatient extends Component<Props, State> {
 
   SearchValueInputSearch = () => {
     console.log('SearchValueInputSearch')
+    this.GetList('?search='+this.state.valueInputSearch);
   }
 
   GetUsers = (userId:string) => {
@@ -184,7 +187,18 @@ class InfoTablePatient extends Component<Props, State> {
       })
     }
   }
-
+  GetList = (params:string) => {
+    this.doctorApi.getList(this.token,params,
+      (res:any)=>{
+        console.log(res)
+        this.setState({
+          patient:res.data.users
+        })
+      },(err:any)=>{
+        console.log(err)
+      }
+    )
+  }
   ////
   getIdRow=(room:api__.Patient,featureType: "update" | "delete" | "insert")=>{
     switch(featureType){
@@ -607,6 +621,7 @@ class InfoTablePatient extends Component<Props, State> {
       >
         <h1 style={{marginTop:"0px"}}>Patient</h1>
         <s__.FeatureArea>
+          <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton>
           <s__.FeatureButton onClick={()=>this.setShowPopupByType("insert")}><p>Register Patient</p></s__.FeatureButton>
           <s__.FeatureButton style={{backgroundColor:this.state.updatemode?"tomato":""}} onClick={this.setUpdateMode}><p>{this.state.updatemode?"Cancel":"Add Patient To Room"}</p></s__.FeatureButton>
           <s__.SearchInput
@@ -669,19 +684,15 @@ class InfoTablePatient extends Component<Props, State> {
   }
 
   renderPaper = () =>{
+    let arr = new Array(this.state.numberPaper);
     return (
-      // <s__.PaperDiv>
-      //   <s__.PaperDivNumber >
-      //     <p style={{margin:"0px"}} >1</p>
-      //     <p style={{margin:"0px"}} >2</p>
-      //     <p style={{margin:"0px"}} >3</p>
-      //   </s__.PaperDivNumber  >
-      // </s__.PaperDiv>
         <s__.PaperDiv>
-          <s__.PaperDivNumber><p>1</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>2</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>3</p></s__.PaperDivNumber>
-          <s__.PaperDivNumber><p>4</p></s__.PaperDivNumber>
+          {
+          [...Array(this.state.numberPaper).keys()].map((value,index)=>{
+            return <s__.PaperDivNumber onClick={()=>{this.GetList('?page='+value)}}><p>{value+1}</p></s__.PaperDivNumber>
+          })
+          }
+          
         </s__.PaperDiv>
     )
   }
@@ -702,6 +713,7 @@ class InfoTablePatient extends Component<Props, State> {
 }
 
 const mapStateToProps = (state:MainState) =>({
+  UserssignedState: state.UserssignedState,
   UsersState: state.UsersState
 });
 export default connect(mapStateToProps,{})(InfoTablePatient);

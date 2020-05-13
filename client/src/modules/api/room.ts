@@ -1,5 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
+import * as config__ from "./../config";
 
+const ROOM:string = config__.ROOM;
 export default class RoomAPI {
 
   getAll = (token: string,formData: FormData, response: any, error: any) => {
@@ -8,32 +10,18 @@ export default class RoomAPI {
       "typesort": formData.get("typesort"),
       "search": formData.get("search")
     }
-    axios.get('/api/room/',{ headers: { Authorization: token },data:data })
-    // $.get('/api/room/',{ headers: { Authorization: token },data:data })
-    // fetch(
-    //   '/api/room/',
-    //   {
-    //     method:'GET',
-    //     headers:{
-    //       Authorization: token
-    //     },
-    //     body:JSON.stringify(data)
-    //   }
-    // )
-    // axios({
-    //   method: 'GET',
-    //   url: '/api/room/',
-    //   data:data,
-    //   headers: {
-    //     Authorization: token
-    //   }
-    // })
+    axios.get(ROOM,{ headers: { Authorization: token },data:data })
+      .then(response)
+      .catch(error);
+  };
+  getList = (token: string,params: string, response: any, error: any) => {
+    axios.get(ROOM+params,{ headers: { Authorization: token }})
       .then(response)
       .catch(error);
   };
 
   get = (token: string, idRoom: string, response: any, error: any) => {
-    axios.get('/api/room/' + idRoom, { headers: { Authorization: token } })
+    axios.get(ROOM + idRoom, { headers: { Authorization: token } })
       .then(response)
       .catch(error);
   };
@@ -41,7 +29,7 @@ export default class RoomAPI {
     const data = {
       "currentNumber": formData.get("currentNumber")
     }
-    axios.put('/api/room/' + idRoom, data, { headers: { Authorization: token } })
+    axios.put(ROOM + idRoom, data, { headers: { Authorization: token } })
       .then(response)
       .catch(error);
   };
@@ -49,7 +37,7 @@ export default class RoomAPI {
   delete = (token: string, idRoom: string, response: any, error: any) => {
     axios({
       method: 'DELETE',
-      url: '/api/room/' + idRoom,
+      url: ROOM + idRoom,
       headers: {
         Authorization: token
       }
@@ -65,7 +53,7 @@ export default class RoomAPI {
       "address": formData.get("address"),
       "name": formData.get("name")
     }
-    axios.post('/api/room/', data, { headers: { Authorization: token } })
+    axios.post(ROOM, data, { headers: { Authorization: token } })
       .then(response)
       .catch(error);
   };

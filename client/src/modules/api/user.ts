@@ -1,10 +1,10 @@
 import axios from "axios";
+import * as config__ from "./../config";
 
-
-const USER_SIGNIN: string = "/api/user/login";
-const UPLOAD_AVT: string = "/api/user/upload-avatars";
-const GET_PROFILE: string = "/api/user/";
-const USER_CHANGEPASSWORD:string = "/api/user/change-password";
+const USER_SIGNIN: string = config__.USERLOGIN;
+const UPLOAD_AVT: string = config__.USERAVT;
+const GET_PROFILE: string = config__.USERGETPROFILE;
+const USER_CHANGEPASSWORD:string = config__.USERCHANGEPWS;
 export default class UserAPI {
 
   uploadAvatar = (token: string, formData: any, response: any, error: any) => {

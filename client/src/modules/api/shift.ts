@@ -1,13 +1,12 @@
 import axios from 'axios'
-
-const GET: string = "/api/shift/";
-const UPDATE: string = "/api/shift/"
-const DELETE: string = "/api/shift/";
-const GETALL: string = "/api/shift";
-const CREATE: string = "/api/shift";
+import * as config__ from "./../config";
+const GET: string = config__.SHIFT;
+const UPDATE: string = config__.SHIFT;
+const DELETE: string = config__.SHIFT;
+const GETALL: string = config__.SHIFT;
+const CREATE: string = config__.SHIFT;
 
 export default class ShiftAPI {
-
   get = (token: string, idShift: string, response: any, error: any) => {
     axios.get(GET + idShift, { headers: { Authorization: token } })
       .then(response)
@@ -42,7 +41,11 @@ export default class ShiftAPI {
       .then(response)
       .catch(error);
   };
-
+  getList = (token: string,params:string, response: any, error: any) => {
+    axios.get(GETALL+params, { headers: { Authorization: token } })
+      .then(response)
+      .catch(error);
+  };
   create = (token: string, formData: FormData, response: any, error: any) => {
     const data = {
       "startTime": formData.get("startTime"),
