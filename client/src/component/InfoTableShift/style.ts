@@ -4,22 +4,20 @@ import TableRow from '@material-ui/core/TableRow';
 import {TextField, Button} from '@material-ui/core';
 
 export const Container = styled.div`
-  height: auto;
-  width: auto;
-  background-color: white;
+  width: 100%;
   color:black;
-  padding: 20px 10px 10px 10px;
-  font-size: 15px;
+  margin: 5rem 0;
+  font-size: 1,5rem;
 `;
-
-export const TableRowInfo = styled(TableRow)`
-  height: 50px;
+  
+export const TableRowInfo = styled(TableRow)`  
+  height: 3rem;
   &:hover{
     background-color: royalblue;
   }
 `
 export const TableRowHead = styled(TableRow)`
-  height: 50px;
+  height: 5rem;
   width:100%;
   /* top:0px; */
   /* position: absolute; */
@@ -33,6 +31,7 @@ export const PopupBackground = styled.div`
   width:100%;
   height:100%;
   opacity: .8;
+  
 `
 export const PopupContainer = styled.div`
   width:auto;
@@ -45,19 +44,21 @@ export const PopupContainer = styled.div`
   border-radius:5px;
   display: grid;
   grid-column: repeat(2,1fr);
+  z-index:1000;
 `
 
 export const PopupInfo = styled.div`
   grid-column:1/2;
   /* background-color:yellow; */
+  width: 400px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  margin:10px;
+  margin:1rem;
 `
 
 export const PopupInput = styled.div`
-  margin:10px;
+  margin:1rem;
   grid-column:2/3;
   display:flex;
   flex-direction:column;
@@ -65,7 +66,7 @@ export const PopupInput = styled.div`
 `
 
 export const TextInput = styled(TextField)`
-  width:300px;
+  width:30rem;
 `
 
 export const TextFieldArea = styled.span`
@@ -73,7 +74,7 @@ export const TextFieldArea = styled.span`
 `
 
 export const ButtonSubmit = styled(Button)`
-  width:300px;
+  width:30rem;
   display:flex;
 
 `
@@ -90,7 +91,7 @@ export const SearchInput = styled.input`
   /* border-top-left-radius:5px; */
   /* border-bottom-left-radius:5px; */
   border:none;
-  padding: 0px 20px;
+  padding: 0px 2rem;
   margin:0px;
   font-size:inherit;
 `
@@ -109,21 +110,29 @@ export const FeatureButton = styled.button`
 
 export const PaperDiv = styled.div`
   background-color: royalblue;
-  height: 50px ;
+  /* width:50px; */
+  height: 3rem ;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   display:flex;
-  justify-content:flex-end;
+  justify-content:center;
   align-items:center;
 `
 
 export const PaperDivNumber = styled.button`
-  height: 100%;
-  width:5%;
+  /* height: 100%;
+  width:5%; */
+  height:30px;
+  width:30px;
   background-color:rgba(0,0,0,0.2);
   color:white;
   border: none;
   text-align:center;
+  border-radius:50%;
+  margin: 0 .5rem;
+  p{
+    margin:0;
+  }
   &:hover{
     background-color: rgba(255,255,255,0.2);
     color:black;

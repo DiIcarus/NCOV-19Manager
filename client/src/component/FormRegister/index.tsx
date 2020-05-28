@@ -73,36 +73,39 @@ class FormRegister extends Component<Props, {}> {
   };
 
   handleRegister = () => {
-    // const formdata = new FormData();
-    // formdata.append("address", this.props.RegisterState.address);
-    // formdata.append("password", this.props.RegisterState.password);
-    // formdata.append("phoneNumber", this.props.RegisterState.phoneNumber);
-    // formdata.append("dateOfBirth", this.props.RegisterState.dateOfBirth);
-    // formdata.append("identityCard", this.props.RegisterState.identityCard);
-    // formdata.append("fullName", this.props.RegisterState.fullName);
-    // formdata.append("email", this.props.RegisterState.email);
-    // console.log(formdata);
-    // this.module.userRegister(
-    //   formdata,
-    //   (res: any) => {
-    //     console.log(res);
-    //   },
-    //   (err: any) => {
-    //     console.log(err);
-    //   }
-    // );
-    return (
-      <Route>
-        <Redirect to={{ pathname: "/signin" }} />
-      </Route>
+    const formdata = new FormData();
+    formdata.append("address", this.props.RegisterState.address);
+    formdata.append("password", this.props.RegisterState.password);
+    formdata.append("phoneNumber", this.props.RegisterState.phoneNumber);
+    formdata.append("dateOfBirth", this.props.RegisterState.dateOfBirth);
+    formdata.append("identityCard", this.props.RegisterState.identityCard);
+    formdata.append("fullName", this.props.RegisterState.fullName);
+    formdata.append("email", this.props.RegisterState.email);
+    console.log(formdata);
+    this.module.userRegister(
+      formdata,
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
     );
+    // return (
+    //   <Route>
+    //     <Redirect to={{ pathname: "/signin" }} />
+    //   </Route>
+    // );
   };
 
   formRegister = () => {
     return (
       <Route path="/register">
+        <style__.Footer>
+        {this.renderBackground()}
         <style__.Container>
-          {/* <h1>Register</h1> */}
+          <style__.RegisterArea>
+            <h2>Register</h2>
           <style__.TextFieldArea>
             <style__.TextInput
               variant="outlined"
@@ -182,18 +185,20 @@ class FormRegister extends Component<Props, {}> {
           >
             Submit Register
           </style__.ButtonRegister>
+          </style__.RegisterArea>
         </style__.Container>
+        </style__.Footer>
       </Route>
     );
   };
 
-  demoRedirect = () => {
-    if (true) {
-      return <React.Fragment />;
-    } else {
-      return <Redirect to="/about-us" />;
-    }
-  };
+  // demoRedirect = () => {
+  //   if (true) {
+  //     return <React.Fragment />;
+  //   } else {
+  //     return <Redirect to="/about-us" />;
+  //   }
+  // };
   renderBackground = () => {
     return (
       <style__.Particless
@@ -243,7 +248,7 @@ class FormRegister extends Component<Props, {}> {
   render() {
     return (
       <React.Fragment>
-        {this.renderBackground()}
+        
         {this.formRegister()}
       </React.Fragment>
     );

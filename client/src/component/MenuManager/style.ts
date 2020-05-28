@@ -5,29 +5,34 @@ import ListItem from "@material-ui/core/ListItem";
 
 import Particles from "react-particles-js";
 export const Container = styled.div`
-  width: 10%;
+  position:absolute;
+  /* bottom:0%; */
   height: 100%;
+  width: auto;
   display: flex;
-  align-content: center;
+  flex-direction:row;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
-  overflow: auto;
-  position: fixed;
-  background: linear-gradient(
-    155deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(21, 21, 130, 1) 31%,
-    rgba(0, 171, 205, 1) 100%
-  );
-  z-index: 1000;
+  /* background-color: yellow; */
+  transform:translateY(50%);
+  z-index:-1;
+  /* margin:5rem 0; */
 `;
 
 export const ListMenu = styled.div`
-  width: 100%;
-  position: absolute;
-  top: 0%;
-  /* opacity: 0.8; */
+  /* width: 100%; */
+  /* position:absolute; */
+  /* margin:0px; */
+  transform:translateY(50%);
+  background-color:rgba(0,0,0,.8);
+  border-bottom-left-radius:0.5rem;
+  border-bottom-right-radius:0.5rem;
+  border-bottom-color: white;
+  border-bottom-width:2px;
+  border-bottom-style:solid;
+  border-left-color: white;
+  border-left-width:2px;
+  border-left-style:solid;
 `;
 
 export const LinkChild = styled(Link)`
@@ -41,13 +46,12 @@ export const ListItems = styled(ListItem)`
     opacity: 1;
   }
 `;
-export const Particless = styled(Particles)`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  /* float:right; */
-  z-index: -1000;
-  ::after {
-    clear: both;
-  }
-`;
+// export const Particless = styled(Particles)`
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 0;
+//   ::after {
+//     clear: both;
+//   }
+// `;

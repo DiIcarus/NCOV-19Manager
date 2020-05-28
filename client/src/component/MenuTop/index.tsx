@@ -1,39 +1,76 @@
 import React, { Component } from "react";
 //style importer
 import * as s__ from "./style";
+import * as sr__ from "./styler";
 //component importer
 import ComponentUser from "../ComponentUser/index";
+import MenuManager from "../MenuManager/index";
 //utils importer
 //config importer
 import * as config__ from "../../config/globtype";
+import {HOST} from "../../modules/config";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
-
+import JWT from 'jwt-client';
 import { connect } from "react-redux";
 import { MainState } from "./../../store/index";
+import UserApi from "./../../modules/api/user"
 //type
 import { UserssignedState } from "./../../store/UsersSigned/type";
+import {setTokenUserssigned,setFullnameUserssigned,setAvatarUserssigned} from "./../../store/UsersSigned/action";
 import { Route } from "react-router-dom";
 
 type Props = {
   UserssignedState: UserssignedState,
+  setFullnameUserssigned: typeof setFullnameUserssigned,
+  setAvatarUserssigned: typeof setAvatarUserssigned,
 }
 type State = typeof initState;
 const initState = {
   string: "Hello my friend" as string,
+  managerState: false,
+  usersName:'',
+  img: "https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png",
 };
 class MenuTop extends Component<Props, State> {
   state = initState;
+  
   img: string =
-    "https://scontent.fvca1-1.fna.fbcdn.net/v/t1.0-9/89257991_222294712294689_3681975338583195648_n.jpg?_nc_cat=108&_nc_sid=1480c5&_nc_ohc=lzYO_8Zr5pwAX87xxPJ&_nc_ht=scontent.fvca1-1.fna&oh=25695f44f2df2b41f630bf5931749096&oe=5EC84D34";
+    "https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png";
   name: string = "ADMIN";
-  userInfo =JSON.parse( String(window.localStorage.getItem('UsersInfo')));
+  userInfo =JSON.parse( String(window.sessionStorage.getItem('UsersInfo')));
   user = window.sessionStorage.accessToken ? (this.userInfo? this.userInfo:this.props.UserssignedState) : this.props.UserssignedState;
+  userApi = new UserApi();
   componentDidMount(){
-    setInterval(()=>{
-      console.log("user",this.user)
-      console.log("userSession", this.userInfo) 
-    },1000)
+    // setInterval(()=>{
+    // console.log("user",JWT.read(sessionStorage.accessToken).claim)
+    // if(sessionStorage.accessToken===''){
+    this.userApi.getProfile(sessionStorage.accessToken,(res:any)=>{
+        this.props.setFullnameUserssigned(res.data.user.fullName);
+        this.props.setAvatarUserssigned(res.data.user.avatars);
+        this.setState({
+          img:res.data.user.avatars[0]?HOST+"/"+res.data.user.avatars[0]:this.img
+        })
+        console.log("TOPMENU",res);
+      },(err:any)=>{
+        console.log(err);
+      })
+    // }
+
+  }
+  signout=()=>{
+    console.log("aaaaa");
+    window.sessionStorage.accessToken = "";
+    // this.props.UserssignedState.fullName = "";
+    this.setState({
+      managerState:false,
+    })
+    // this.props.
+  }
+  showManagerList = () =>{
+    this.setState({
+      managerState:!this.state.managerState
+    })
   }
   renderRoute=()=>{
     return (<></>
@@ -41,63 +78,45 @@ class MenuTop extends Component<Props, State> {
     )
   }
   render() {
-    return (
-      <s__.Container>
-        <s__.LogoArea>
-          <s__.LogoImg src="https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png" />
-        </s__.LogoArea>
-        <s__.MenuArea>
-          <s__.MenuChild>
-            <s__.MenuLink href="/">HOME</s__.MenuLink>
-          </s__.MenuChild>
-          {(window.sessionStorage.accessToken)===undefined?
-          <></>:<s__.MenuChild>
-            <s__.MenuLink href="/manager/room">MANAGER</s__.MenuLink>
-          </s__.MenuChild>
-
-          }          <s__.MenuChild>
-            <s__.MenuLink href="/contact">CONTACT</s__.MenuLink>
-          </s__.MenuChild>
-          <s__.MenuChild>
-            <s__.MenuLink href="/about-us">ABOUT US</s__.MenuLink>
-          </s__.MenuChild>
-        </s__.MenuArea>
-        <s__.UserArea>
-          <s__.MenuChild>
-            <s__.FeatureHead>
-              <NotificationsIcon style={{ margin: "10px" }} />
-            </s__.FeatureHead>
-          </s__.MenuChild>
-          <s__.MenuChild>
-            <s__.FeatureHead>
-              <ModeCommentIcon style={{ margin: "10px" }} />
-            </s__.FeatureHead>
-          </s__.MenuChild>
-          <s__.MenuChild>
-            <s__.MenuLink href={window.sessionStorage.accessToken?"/":"/signin"}>
-              <s__.AvtArea
-                // style={{
-                //   backgroundImage:
-                //     "url('" + window.sessionStorage.accessToken
-                //       ?( this.user.avatars!==[]?this.user.avatars[0]:this.img)
-                //       : this.img + "')",
-                // }}
-              />
-            </s__.MenuLink>
-          </s__.MenuChild>
-          <s__.MenuChild>
-            <s__.MenuLink href={window.sessionStorage.accessToken?"/":"/signin"}>
-              {window.sessionStorage.accessToken
-                ? this.user.fullName
-                : "Sign In"}
-            </s__.MenuLink>
-          </s__.MenuChild>
-        </s__.UserArea>
-      </s__.Container>
+      return (
+      <sr__.NavTopMenu>
+        <sr__.Container>
+          <sr__.LogoArea>
+            <sr__.LinkBrand>
+              <sr__.Logo src="https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png"/>
+            </sr__.LinkBrand>
+            <span></span>
+          </sr__.LogoArea>
+          <sr__.MenuArea>
+            <sr__.MenuChild><sr__.LinkTop to="/">HOME</sr__.LinkTop></sr__.MenuChild>
+            {window.sessionStorage.accessToken?<sr__.MenuChild onClick={this.showManagerList} >
+              <sr__.LinkTop to="#" >Manager</sr__.LinkTop>
+              {this.state.managerState?<MenuManager />:<></>}
+            </sr__.MenuChild>:<></>}
+            <sr__.MenuChild><sr__.LinkTop to="/about-us">About us</sr__.LinkTop></sr__.MenuChild>
+          </sr__.MenuArea>
+          <sr__.LogoArea>
+            <sr__.LinkBrand>
+              {window.sessionStorage.accessToken?
+              <sr__.Logo src={this.state.img}></sr__.Logo>:
+              <sr__.Logo src={this.state.img}></sr__.Logo>}
+              {/* <sr__.Logo src="https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png"/> */}
+            </sr__.LinkBrand>
+            <sr__.MenuChild ><sr__.LinkTop to={window.sessionStorage.accessToken?"/":"/signin"}>{window.sessionStorage.accessToken
+                ? this.props.UserssignedState.fullName
+                : "Sign In"}</sr__.LinkTop></sr__.MenuChild>
+          <sr__.MenuChild style={{display:window.sessionStorage.accessToken?"":"none"}} onClick={this.signout}><sr__.LinkTop to="/" onClick={this.signout}>Sign out</sr__.LinkTop></sr__.MenuChild>
+            <s__.MenuLink ></s__.MenuLink>
+          </sr__.LogoArea>
+        </sr__.Container>
+      </sr__.NavTopMenu>
     );
   }
 }
 const mapStateToProps = (state: MainState) => ({
   UserssignedState: state.UserssignedState,
 });
-export default connect(mapStateToProps, {})(MenuTop);
+export default connect(mapStateToProps, {
+  setFullnameUserssigned,
+  setAvatarUserssigned,
+})(MenuTop);

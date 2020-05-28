@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as config__ from "./../config";
 
 const ROOM:string = config__.ROOM;
+const DIEMDANH:string = config__.DIEMDANH;
 export default class RoomAPI {
 
   getAll = (token: string,formData: FormData, response: any, error: any) => {
@@ -16,6 +17,12 @@ export default class RoomAPI {
   };
   getList = (token: string,params: string, response: any, error: any) => {
     axios.get(ROOM+params,{ headers: { Authorization: token }})
+      .then(response)
+      .catch(error);
+  };
+
+  getListHistory = (token: string,params: string, response: any, error: any) => {
+    axios.get(DIEMDANH+params,{ headers: { Authorization: token }})
       .then(response)
       .catch(error);
   };

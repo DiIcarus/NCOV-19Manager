@@ -661,7 +661,7 @@ class InfoTablePatient extends Component<Props, State> {
 
   renderGrid = () =>{
     return (
-    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"350px"}}>
+    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"400px"}}>
       <div >
         <Table size="small">
           <TableHead >

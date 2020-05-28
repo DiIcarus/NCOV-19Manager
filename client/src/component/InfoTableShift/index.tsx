@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import * as time__ from "./../../modules/time";
 //component importer
 // import MainMenu from "../MainMenu/index";
 //utils importer
@@ -52,12 +52,14 @@ const initState = {
   updatemode:false,
   showPopup:false,
   numberPaper:0,
-  featureType:"get" as "update" | "delete" | "insert",
+  featureType:"get" as "update" | "delete" | "insert" | "repeat",
   delAll: false,
   listDell:[] as string[],
   valueInputSearch: '' as string,
 
   shiftRequest:{
+    startTime:'',
+    endTime:'',
     updatestartTime:'',
     insertstartTime:'',
     insertendTime:'',
@@ -88,9 +90,9 @@ class InfoTableShift extends Component<Props, State> {
   componentDidMount(){
     console.log(this.state);
     this.GETAll();
-    setInterval(()=>{
-      console.log(this.state);
-    },2000)
+    // setInterval(()=>{
+    //   console.log(this.state);
+    // },2000)
   }
 
   //API
@@ -192,8 +194,8 @@ class InfoTableShift extends Component<Props, State> {
   saveInsertPopup = () => {
     //room
     let formdata = new FormData();
-    formdata.append('startTime',this.state.shiftRequest.insertstartTime);
-    formdata.append('endTime',this.state.shiftRequest.insertendTime);
+    formdata.append('startTime',time__.ParseTime(this.state.shiftRequest.insertendTime,this.state.shiftRequest.startTime).toString());
+    formdata.append('endTime',time__.ParseTime(this.state.shiftRequest.insertendTime,this.state.shiftRequest.endTime).toString());
     this.InsertCurrent(formdata);
     let obj = this.state.shiftRequest;
     obj.insertstartTime = "";
@@ -208,23 +210,47 @@ class InfoTableShift extends Component<Props, State> {
   renderInsertForm = () => {
     return (
       <React.Fragment>
+        <h4>Start Time</h4>
         <s__.TextFieldArea>
             <s__.TextInput
               variant="outlined"
-              label="startTime"
+              // label="startTime"
               id="startTime"
-              type="text"
+              type="time"
+              value={this.state.shiftRequest.startTime}
+              placeholder=""
+              onChange={this.onchangeStartTime}
+            />
+          </s__.TextFieldArea>
+        <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="startTime"
+              id="startTime"
+              type="date"
               value={this.state.shiftRequest.insertstartTime}
               placeholder=""
               onChange={this.onchangeInsertStartTime}
             />
           </s__.TextFieldArea>
+          <h4>End Time</h4>
           <s__.TextFieldArea>
             <s__.TextInput
               variant="outlined"
-              label="endTime"
+              // label="startTime"
+              id="startTime"
+              type="time"
+              value={this.state.shiftRequest.endTime}
+              placeholder=""
+              onChange={this.onchangeEndTime}
+            />
+          </s__.TextFieldArea>
+          <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="endTime"
               id="endTime"
-              type="text"
+              type="date"
               value={this.state.shiftRequest.insertendTime}
               onChange={this.onchangeInsertEndTime}
             />
@@ -299,6 +325,75 @@ class InfoTableShift extends Component<Props, State> {
     )
   }
 
+  renderRepeatForm = () => {
+    return (
+    <React.Fragment>
+        <h4>Start Time</h4>
+        <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="startTime"
+              id="startTime"
+              type="time"
+              value={this.state.shiftRequest.startTime}
+              placeholder=""
+              onChange={this.onchangeStartTime}
+            />
+          </s__.TextFieldArea>
+        <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="startTime"
+              id="startTime"
+              type="date"
+              value={this.state.shiftRequest.insertstartTime}
+              placeholder=""
+              onChange={this.onchangeInsertStartTime}
+            />
+          </s__.TextFieldArea>
+          <h4>End Time</h4>
+          <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="startTime"
+              id="startTime"
+              type="time"
+              value={this.state.shiftRequest.endTime}
+              placeholder=""
+              onChange={this.onchangeEndTime}
+            />
+          </s__.TextFieldArea>
+          <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              // label="endTime"
+              id="endTime"
+              type="date"
+              value={this.state.shiftRequest.insertendTime}
+              onChange={this.onchangeInsertEndTime}
+            />
+          </s__.TextFieldArea>
+          <s__.TextFieldArea>
+            <s__.ButtonSubmit
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<SaveIcon />}
+              onClick={this.saveInsertPopup}
+            >Save</s__.ButtonSubmit>
+          </s__.TextFieldArea>
+          <s__.TextFieldArea>
+            <s__.ButtonSubmit
+              variant="contained"
+              color="default"
+              size="large"
+              startIcon={<CloseIcon />}
+              onClick={this.cancelPopup}
+            >Cancel</s__.ButtonSubmit>
+          </s__.TextFieldArea>
+      </React.Fragment>
+      )
+  }
   renderPopupInput = (type:string) => {
     switch(type){
       case "get":
@@ -315,6 +410,12 @@ class InfoTableShift extends Component<Props, State> {
         return (
           <React.Fragment>
             {this.renderInsertForm()}
+          </React.Fragment>
+        )
+      case "repeat":
+        return (
+          <React.Fragment>
+            {this.renderRepeatForm()}
           </React.Fragment>
         )
     }
@@ -370,7 +471,7 @@ class InfoTableShift extends Component<Props, State> {
     })
   }
 
-  setShowPopupByType = (type:"update" | "delete" | "insert") => {
+  setShowPopupByType = (type:"update" | "delete" | "insert" | "repeat") => {
     switch(type){
       case "update":
         this.setState({
@@ -381,6 +482,11 @@ class InfoTableShift extends Component<Props, State> {
       case "delete":
         break;
       case "insert":
+        this.setState({
+          featureType:type,
+          showPopup: true
+        })
+      case "repeat":
         this.setState({
           featureType:type,
           showPopup: true
@@ -441,6 +547,20 @@ class InfoTableShift extends Component<Props, State> {
       shiftRequest:obj
     })
   }
+  onchangeStartTime = (event: ChangeEvent<HTMLInputElement>) => {
+    let obj = this.state.shiftRequest;
+    obj.startTime = event.target.value;
+    this.setState({
+      shiftRequest:obj
+    })
+  }
+  onchangeEndTime = (event: ChangeEvent<HTMLInputElement>) => {
+    let obj = this.state.shiftRequest;
+    obj.endTime = event.target.value;
+    this.setState({
+      shiftRequest:obj
+    })
+  }
 
   onchangeInsertEndTime = (event: ChangeEvent<HTMLInputElement>) => {
     let obj = this.state.shiftRequest;
@@ -464,7 +584,8 @@ class InfoTableShift extends Component<Props, State> {
       >
         <h1 style={{marginTop:"0px"}}>Shift</h1>
         <s__.FeatureArea>
-          {/* <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton> */}
+          <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton>
+          <s__.FeatureButton onClick={()=>this.setShowPopupByType("repeat")}><p>Repeat</p></s__.FeatureButton>
           <s__.FeatureButton onClick={()=>this.setShowPopupByType("insert")}><p>Insert</p></s__.FeatureButton>
           <s__.FeatureButton style={{backgroundColor:this.state.updatemode?"tomato":""}} onClick={this.setUpdateMode}><p>{this.state.updatemode?"Cancel":"Update"}</p></s__.FeatureButton>
           {/* <s__.SearchInput
@@ -522,8 +643,8 @@ class InfoTableShift extends Component<Props, State> {
       <s__.TableRowInfo key={row._id} onClick={this.state.updatemode?()=>this.getIdRow(row,"update"):()=>this.setIdCurrent(row._id)}
       onFocus={()=>this.setIdCurrent(row._id)}>
         <TableCell>{row.idUser.length}</TableCell>
-        <TableCell>{row.startTime}</TableCell>
-        <TableCell>{row.endTime}</TableCell>
+        <TableCell>{time__.Timestamp2Time(row.startTime)}</TableCell>
+        <TableCell>{time__.Timestamp2Time(row.endTime)}</TableCell>
         <TableCell align="right" style={{display:this.state.deletemode?"":"none"}} >
           <Checkbox 
             size="small"
@@ -536,7 +657,7 @@ class InfoTableShift extends Component<Props, State> {
 
   renderGrid = () =>{
     return (
-    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"350px"}}>
+    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"400px"}}>
       <div >
         <Table size="small">
           <TableHead >

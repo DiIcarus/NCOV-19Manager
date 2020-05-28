@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   height: auto;
   background-color: white;
-  padding-top: 70px;
+  /* padding-top: 70px; */
 `;
 
 export const MainBlock = styled.div`
-	left: 10%;
-  width: 90%;
+	/* left: 10%; */
+  width: 100%;
   height: 100%;
   /* display: flex; */
   /* align-content: center; */

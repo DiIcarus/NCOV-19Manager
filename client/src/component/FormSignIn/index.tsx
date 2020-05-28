@@ -1,5 +1,5 @@
 import React, { Component, ChangeEvent } from "react";
-
+import {withRouter,RedirectProps,RouteProps} from "react-router-dom";
 //style importer
 import * as s__ from "./style";
 import Button from "@material-ui/core/Button";
@@ -49,6 +49,7 @@ import {
   setmailUserssigned,
 } from "../../store/UsersSigned/action";
 import { setTokenUsers } from "../../store/User/action";
+import { Redirect, Route, useHistory } from "react-router-dom";
 
 type Props = {
   SignInState: SignInState,
@@ -78,11 +79,11 @@ type Props = {
 class FormSignIn extends Component<Props, {}> {
   usersModule = new UserAPI();
   module = new DoctorAPI();
-
+  // history = useHistory();
   componentDidMount=()=>{
     setInterval(()=>{
 
-     console.log(this.props.UserssignedState);
+    //  console.log(this.props.UserssignedState);
     },1000); 
     console.log(this.props.UserssignedState);
  }
@@ -134,6 +135,7 @@ class FormSignIn extends Component<Props, {}> {
         this.props.setVUserssigned(res.data.user.__v);
         this.props.setDateofbirthUserssigned(res.data.user.dateOfBirth)
         localStorage.setItem('UsersInfo',JSON.stringify(res.data.user));
+        window.sessionStorage.setItem('UsersInfo',JSON.stringify(res.data.user));
         },
         (err: any) => {
         console.log(err);
@@ -144,67 +146,52 @@ class FormSignIn extends Component<Props, {}> {
         console.log(err);
       }
     );
-   
+    // this.props.history.
   };
 
   formSigninDemo = () => {
     return (
-      <s__.Container
-        style={{ display: this.props.SignInState.display ? "block" : "none" }}
-      >
-        {/* {this.renderBackground()} */}
-        <div>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <div>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="CMND"
-                  label="CMND"
-                  name="CMND"
-                  autoComplete="CMND"
-                  value={this.props.SignInState.identityCard}
-                  onChange={this.identityChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={this.props.SignInState.password}
-                  onChange={this.passwordChange}
-                />
-              </Grid>
-              <Grid item xs={12}></Grid>
-            </Grid>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={this.signIn}
-            >
-              Sign In
-            </Button>
-            <s__.LinkRoute
-              to="/register"
-              // onClick={() => this.redirectRegister()}
-            >
-              Register ?
-            </s__.LinkRoute>
-          </div>
-        </div>
-      </s__.Container>
+      <React.Fragment>
+        <s__.SignInArea>
+          <h2>Sign up</h2>
+          <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              required
+              id="CMND"
+              label="CMND"
+              name="CMND"
+              autoComplete="CMND"
+              value={this.props.SignInState.identityCard}
+              onChange={this.identityChange}
+            /></s__.TextFieldArea>
+            <s__.TextFieldArea>
+            <s__.TextInput
+              variant="outlined"
+              required
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={this.props.SignInState.password}
+              onChange={this.passwordChange}
+            /></s__.TextFieldArea>
+                <s__.ButtonSignIn
+            variant="contained"
+            color="primary"
+            onClick={this.signIn}
+          >
+            Sign In
+          </s__.ButtonSignIn>
+          <s__.LinkRoute
+            to="/register"
+            // onClick={() => this.redirectRegister()}
+          >
+            Register ?
+          </s__.LinkRoute>
+        </s__.SignInArea>
+      </React.Fragment>
     );
   };
 
@@ -309,10 +296,15 @@ class FormSignIn extends Component<Props, {}> {
 
   render() {
     return (
-      <React.Fragment>
-        {this.renderBackground()}
-        {this.formSigninDemo()}
-      </React.Fragment>
+      <s__.Footer>
+      {this.renderBackground()}
+        <s__.Container
+          style={{ display: this.props.SignInState.display ? "flex" : "none" }}
+        >
+          {this.formSigninDemo()}
+        </s__.Container>
+      </s__.Footer>
+        
     );
   }
 }

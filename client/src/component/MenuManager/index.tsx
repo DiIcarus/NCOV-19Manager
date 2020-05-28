@@ -48,12 +48,12 @@ class MenuManager extends Component<{}, {}> {
           </ListItemIcon>
           <s__.LinkChild to="/manager/user"><ListItemText primary="User" /></s__.LinkChild>
         </s__.ListItems>
-        <s__.ListItems button>
+        {/* <s__.ListItems button>
           <ListItemIcon>
             <AddBoxIcon style={{color:"white"}}/>
           </ListItemIcon>
           <s__.LinkChild to="/manager/post"><ListItemText primary="Create Post" /></s__.LinkChild>
-        </s__.ListItems>  
+        </s__.ListItems>   */}
         </List>
       </s__.ListMenu>
     )
@@ -71,51 +71,51 @@ class MenuManager extends Component<{}, {}> {
     return <img src={value}  onClick={()=>this.showMSSV(value)}/>})}</>
   }
 
-  renderBackground = () => {
-    return  <s__.Particless params={{
-      "particles": {
-          "number": {
-              "value": 50
-          },
-          "size": {
-              "value": 1.3,
-              "anim": {
-                "speed": 1,
-                "size_min": 0.8
-            }
-          },
-          "line_linked": {
-            "enable": false,
-            "blink": true,
-            "width":1
-          },
-          "color":{
-            "value":"#fff"
-          }
-      },
-      "interactivity": {
-          "events": {
-              "onhover": {
-                  "enable": true,
-                  "mode": "connect" as HoverMode
-              }
-          },
-          "modes": {
-              "connect": {
-                  "distance": 50,
-                  "radius"	:	50,
-                  "lineLinked":{
-                    "opacity":0.2
-                  }
-              }
-          }
-      }
-    }}/>
- }
+//   renderBackground = () => {
+//     return  <s__.Particless params={{
+//       "particles": {
+//           "number": {
+//               "value": 50
+//           },
+//           "size": {
+//               "value": 1.3,
+//               "anim": {
+//                 "speed": 1,
+//                 "size_min": 0.8
+//             }
+//           },
+//           "line_linked": {
+//             "enable": false,
+//             "blink": true,
+//             "width":1
+//           },
+//           "color":{
+//             "value":"#fff"
+//           }
+//       },
+//       "interactivity": {
+//           "events": {
+//               "onhover": {
+//                   "enable": true,
+//                   "mode": "connect" as HoverMode
+//               }
+//           },
+//           "modes": {
+//               "connect": {
+//                   "distance": 50,
+//                   "radius"	:	50,
+//                   "lineLinked":{
+//                     "opacity":0.2
+//                   }
+//               }
+//           }
+//       }
+//     }}/>
+//  }
   render() {
     return  (
       <s__.Container>
-        {this.renderBackground()}
+        {/* {this.renderBackground()} */}
         {this.renderPatientManager()}
         {/* {this.renderImg()} */}
       </s__.Container>

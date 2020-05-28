@@ -10,6 +10,8 @@ export interface RoomRequest {
 }
 
 export interface ShiftRequest {
+    startTime:string,
+    endTime:string,
     updatestartTime: string,
     insertstartTime: string,
     insertendTime: string,

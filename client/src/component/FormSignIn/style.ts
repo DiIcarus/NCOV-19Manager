@@ -3,29 +3,45 @@ import { Link } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Particles from "react-particles-js";
 
+export const Footer = styled.footer`
+  color: rgba(255,255,255,0.85) !important;
+  border-top-width: 0;
+  position: relative;
+  /* padding: 5rem 0; */
+  display: block;
+  background: linear-gradient(
+    155deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(21, 21, 130, 1) 31%,
+    rgba(0, 171, 205, 1) 100%
+  );
+`
 export const Container = styled.div`
-  position: absolute;
-  top: 0%;
-  background-color: white;
-  border-radius: 5px;
-  width: 350px;
-  margin: 10px;
-  padding: 10px;
-  right: 0%;
-  transform: translate(-50%, 50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  /* background-color: white; */
+  min-height: 100vh;
+  max-height:auto;
+  @media (min-width: 1200px){
+      max-width: 1140px;
+  }
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  display:flex;
+  /* flex-direction:column; */
+  justify-content:center;
+  align-items:center;
 `;
 export const LinkRoute = styled(Link)`
-  color: black;
+  color: inherit;
   text-decoration: none;
-  /* border: 1px saddlebrown solid  ;
-  padding: 2px; */
+  z-index:10;
 `;
 export const TextInput = styled(TextField)`
   width: 300px;
+  background-color:white;
+  
 `;
 
 export const TextFieldArea = styled.div`
@@ -39,15 +55,21 @@ export const Particless = styled(Particles)`
   position: absolute;
   width: 100%;
   height: 100%;
-  /* float:right; */
-  z-index: -1000;
+  z-index: 0;
   ::after {
     clear: both;
   }
-  background: linear-gradient(
-    155deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(21, 21, 130, 1) 31%,
-    rgba(0, 171, 205, 1) 100%
-  );
 `;
+
+export const SignInArea = styled.div`
+  /* width:300px; */
+  /* background-color:black; */
+  display:flex;
+  flex-direction:column;
+  padding:1rem;
+  background-color:white;
+  border-radius:0.5rem;
+  color:black;  
+  text-align:center;
+  margin:5rem 1rem;
+`

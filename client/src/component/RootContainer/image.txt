@@ -1,0 +1,45 @@
+
+  // imgArr: string[] = [];
+  // showMSSV = (ms: string) => {
+  //   console.log(ms);
+  // };
+  // renderImg = () => {
+  //   const classs = "N18DCMR";
+  //   for (let i = 1; i < 10; i++) {
+  //     this.imgArr.push(
+  //       "http://diemtp.ptithcm.edu.vn/images/studen/" +
+  //         classs +
+  //         "00" +
+  //         i +
+  //         ".jpg"
+  //     );
+  //   }
+  //   for (let i = 10; i < 100; i++) {
+  //     this.imgArr.push(
+  //       "http://diemtp.ptithcm.edu.vn/images/studen/" +
+  //         classs +
+  //         "0" +
+  //         i +
+  //         ".jpg"
+  //     );
+  //   }
+  //   for (let i = 100; i < 300; i++) {
+  //     this.imgArr.push(
+  //       "http://diemtp.ptithcm.edu.vn/images/studen/" + classs + i + ".jpg"
+  //     );
+  //   }
+  //   return (
+  //     <React.Fragment>
+  //       {this.imgArr.map((value) => {
+  //         console.log(value);
+  //         return (
+  //           <img
+  //             src={value}
+  //             style={{ width: "20%" }}
+  //             onClick={() => this.showMSSV(value)}
+  //           />
+  //         );
+  //       })}
+  //     </React.Fragment>
+  //   );
+  // };

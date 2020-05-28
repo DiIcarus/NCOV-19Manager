@@ -25,6 +25,7 @@ import DoctorAPI from "../../modules/api/doctor";
 import RoomAPI from "../../modules/api/room";
 import ShiftAPI from "../../modules/api/shift";
 import UserAPI from "../../modules/api/user";
+import {Timestamp2Time} from "../../modules/time";
 //config importer
 import {AdminRequest,DoctorRequest,RoomRequest,ShiftRequest,UserRequest} from "../../config/requesttype";
 import * as api__ from "../../config/apireturntype";
@@ -98,7 +99,7 @@ class InfoTableUser extends Component<Props, State> {
   componentDidMount(){
     // console.log(this.state);
     this.GETAll();
-    // this.GETAllShift();
+    this.GETAllShift();
     setInterval(()=>{
       console.log("state",this.state);
       // console.log(this.props.UserssignedState.token);
@@ -234,16 +235,16 @@ class InfoTableUser extends Component<Props, State> {
             style={{ width: 300 }}
             options={this.state.shift}
             autoHighlight
-            getOptionLabel={(option:api__.Shift) => "Start:"+(option.startTime)+"- End:"+ (option.endTime)}
+            getOptionLabel={(option:api__.Shift) => "Start:"+Timestamp2Time(option.startTime)+"- End:"+ Timestamp2Time(option.endTime)}
             renderOption={(option:api__.Shift) => (
               <React.Fragment>
-                Start:({option.startTime}) - End:({option.endTime})
+                Start:({Timestamp2Time(option.startTime)}) - End:({Timestamp2Time(option.endTime)})
               </React.Fragment>
             )}
             renderInput={(params:any) => (
               <TextField
                 {...params}
-                label="Choose a Room"
+                label="Choose a Shift"
                 variant="outlined"
                 inputProps={{
                   ...params.inputProps,
@@ -574,7 +575,7 @@ class InfoTableUser extends Component<Props, State> {
 
   renderGrid = () =>{
     return (
-    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"350px"}}>
+    <div style={{backgroundColor:"lightcyan",overflow:"auto",height:"400px"}}>
       <div >
         <Table size="small">
           <TableHead >
@@ -587,7 +588,7 @@ class InfoTableUser extends Component<Props, State> {
               <TableCell>DateOfBirth</TableCell>
               <TableCell>Email</TableCell>
               <TableCell align="right" style={{display:this.state.deletemode?"":"none"}}>
-                <Checkbox 
+                <Checkbox
                   size="small"
                   onChange={this.setDelAll}/>
               </TableCell>
