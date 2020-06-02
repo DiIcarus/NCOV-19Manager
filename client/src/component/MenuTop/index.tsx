@@ -30,7 +30,7 @@ const initState = {
   string: "Hello my friend" as string,
   managerState: false,
   usersName:'',
-  img: "https://deephub.vn/wp-content/uploads/2019/03/logoAsset-5@128.png",
+  img: "https://img.icons8.com/color/48/000000/circled-user-male-skin-type-5.png",
 };
 class MenuTop extends Component<Props, State> {
   state = initState;
@@ -49,7 +49,7 @@ class MenuTop extends Component<Props, State> {
         this.props.setFullnameUserssigned(res.data.user.fullName);
         this.props.setAvatarUserssigned(res.data.user.avatars);
         this.setState({
-          img:res.data.user.avatars[0]?HOST+"/"+res.data.user.avatars[0]:this.img
+          img:res.data.user.avatars[0]?HOST+"/"+res.data.user.avatars[0]:this.state.img
         })
         console.log("TOPMENU",res);
       },(err:any)=>{

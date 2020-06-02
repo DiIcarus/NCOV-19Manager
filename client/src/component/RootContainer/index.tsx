@@ -50,7 +50,7 @@ class RootContainer extends Component {
       <s__.Container>
         <MenuTop />
         {this.renderSwitch()}
-        <Footer/>
+        {/* <Footer/> */}
       </s__.Container>
     );
   }

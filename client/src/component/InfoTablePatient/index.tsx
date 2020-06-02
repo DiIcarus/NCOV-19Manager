@@ -118,7 +118,8 @@ class InfoTablePatient extends Component<Props, State> {
       this.roomApi.getAll(this.token,formData,(res:any)=>{
         console.log('getallroom');
         this.setState({
-          room:res.data.room
+          room:res.data.room,
+          numberPaper:(Math.floor(Number.parseInt(res.data.total)/Number.parseInt(res.data.amount))) +1,
         })
       }, 
       (err:string)=>{

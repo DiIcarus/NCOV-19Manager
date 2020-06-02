@@ -27,6 +27,18 @@ export const Container = styled.div`
   display:flex;
   justify-content:space-evenly;
   align-items:center;
+  .my_class{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:center;
+    h2{
+      font-size:4rem;
+    }
+    ul>li{
+      font-size:2rem;
+    }
+  }
   
 `;
 export const TextInput = styled(TextField)`

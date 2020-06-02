@@ -29,6 +29,9 @@ export const Container = styled.div`
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   /* background-attachment:fixed; */
 
 `

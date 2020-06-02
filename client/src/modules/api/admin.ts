@@ -4,6 +4,7 @@ const GETALL: string = config__.ADMINURLALL;
 const DELETE: string = config__.ADMINURL;
 const UPDATE: string = config__.ADMINURL;
 const ADDSHIFTTODOCTOR: string = config__.ADMINADDSHIFT;
+const ADMIN:string = config__.ADMIN;
 export default class AdminAPI {
 
   getAll = (token: string, response: any, error: any) => {
@@ -16,6 +17,18 @@ export default class AdminAPI {
       .then(response)
       .catch(error);
   };
+  activeDoctor = (token:string,id:string,response:any,error:any) =>{
+    // axios.put(ROOM + id,{},{headers:{Authorization: token}})
+    axios({
+      method:'PUT',
+      url:ADMIN + id,
+      headers: {
+        Authorization: token
+      }
+    })
+    .then(response)
+    .catch(error)
+  }
   deleteUser = (token: string, idUser: string, response: any, error: any) => {
     axios({
       method: 'DELETE',

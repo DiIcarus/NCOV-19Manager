@@ -13,11 +13,12 @@
 // "proxy": "http://:6666",
 const host:string = "192.168.1.4";
 // const host:string = "207.148.71.252";
-const port:string = "6666";
+const port:string = "3000";
 const myHost=() => {
   return "http://"+host+ ":" + port;
 }
 export const HOST:string= myHost();
+export const ADMIN: string = myHost() + "/api/admin/active-doctor/";
 export const ADMINURL:string = myHost()+ "/api/admin";
 export const ADMINURLALL:string = myHost()+"/api/admin/all";
 export const ADMINADDSHIFT:string = myHost()+"/api/admin/add-doctor-to-shift/";

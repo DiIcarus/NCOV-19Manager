@@ -32,6 +32,7 @@ export default class RoomAPI {
       .then(response)
       .catch(error);
   };
+  
   upDate = (token: string, idRoom: string, formData: FormData, response: any, error: any) => {
     const data = {
       "currentNumber": formData.get("currentNumber")

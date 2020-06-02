@@ -136,6 +136,7 @@ class FormSignIn extends Component<Props, {}> {
         this.props.setDateofbirthUserssigned(res.data.user.dateOfBirth)
         localStorage.setItem('UsersInfo',JSON.stringify(res.data.user));
         window.sessionStorage.setItem('UsersInfo',JSON.stringify(res.data.user));
+        alert("Login successful!!")
         },
         (err: any) => {
         console.log(err);

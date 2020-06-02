@@ -13,7 +13,7 @@ const initState = {
   data_all:{},
   data1:{
     header:"This is header",
-    xAsis:[1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+    // xAsis:[1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
     datas:[{
       labelName:"A",
       data:[86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
@@ -27,7 +27,15 @@ const initState = {
       labelName:"D",
       data:[40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
     }]
-  }
+  },
+  data2:{
+    header:"this is header",
+    datainfo:"Population (millions)",
+    label: ["Africa","Asia","Europe","Latin America","North America"],
+    datasets:[{
+      data: [2478, 5267, 734, 784,432],
+    }]
+  } 
 }
 class ChartSection extends Component<{},State>{
   state = initState;
@@ -61,9 +69,9 @@ class ChartSection extends Component<{},State>{
           <h2>Chart</h2>
           <s__.ChartsPlace>
             <ChartData typeChart="Bar" color={[]} data={this.state.data1}/>
-            {/* <ChartData typeChart="Line" color={[]} data={}/> */}
-            {/* <ChartData typeChart="Doughnut" color={[]} data={}/> */}
-            {/* <ChartData typeChart="Bar" color={[]} data={}/> */}
+            <ChartData typeChart="Line" color={[]} data={this.state.data1}/>
+            <ChartData typeChart="Doughnut" color={[]} data={this.state.data2}/>
+            <ChartData typeChart="Bar" color={[]} data={this.state.data2}/>
           </s__.ChartsPlace>
         </s__.Container>
       </s__.Footer>

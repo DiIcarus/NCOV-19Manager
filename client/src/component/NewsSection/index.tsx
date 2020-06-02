@@ -55,7 +55,15 @@ class NewsSection extends Component{
         
         <s__.Container>
           <s__.InfoWrap>
-            {[...Array(8).keys()].map(value => <CardNews/>)}
+            {[...Array(8).keys()].map(value => <CardNews key={value}/>)}
+            {/* <CardNews />
+            <CardNews />
+            <CardNews />
+            <CardNews />
+            <CardNews />
+            <CardNews />
+            <CardNews />
+            <CardNews /> */}
           </s__.InfoWrap>
         </s__.Container>
       </s__.Footer>

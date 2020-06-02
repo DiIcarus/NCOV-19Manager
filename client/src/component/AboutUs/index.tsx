@@ -50,7 +50,16 @@ class AboutUs extends Component<Props, {}> {
       <Route path="/about-us">
         <style__.Footer>
         {this.renderBackground()}
+    
         <style__.Container>
+        <div className="my_class">
+          <h2>COVID-19 Patient Manager</h2>
+          <ul>
+            <li>Nguyen Le Hai Son - N16DCCN133</li>
+            <li>Ha Huu Nhut - N16DCCN114</li>
+            <li>Truong Quoc Tai - N16DCCN135</li>
+          </ul>
+        </div>
         </style__.Container>
         </style__.Footer>
       </Route>

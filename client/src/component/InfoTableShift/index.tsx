@@ -156,7 +156,8 @@ class InfoTableShift extends Component<Props, State> {
       this.shiftApi.getAll(this.token,(res:any)=>{
         console.log("catruc",res.data.caTruc);
         this.setState({
-          shift:res.data.caTruc
+          shift:res.data.caTruc,
+          numberPaper:(Math.floor(Number.parseInt(res.data.total)/Number.parseInt(res.data.amount))) +1,
         })
       }, 
       (err:string)=>{
@@ -585,7 +586,7 @@ class InfoTableShift extends Component<Props, State> {
         <h1 style={{marginTop:"0px"}}>Shift</h1>
         <s__.FeatureArea>
           <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton>
-          <s__.FeatureButton onClick={()=>this.setShowPopupByType("repeat")}><p>Repeat</p></s__.FeatureButton>
+          {/* <s__.FeatureButton onClick={()=>this.setShowPopupByType("repeat")}><p>Repeat</p></s__.FeatureButton> */}
           <s__.FeatureButton onClick={()=>this.setShowPopupByType("insert")}><p>Insert</p></s__.FeatureButton>
           <s__.FeatureButton style={{backgroundColor:this.state.updatemode?"tomato":""}} onClick={this.setUpdateMode}><p>{this.state.updatemode?"Cancel":"Update"}</p></s__.FeatureButton>
           {/* <s__.SearchInput

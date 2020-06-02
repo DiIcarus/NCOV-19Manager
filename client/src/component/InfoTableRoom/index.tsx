@@ -850,8 +850,8 @@ class InfoTableRoom extends Component<Props, State> {
                 <TableHead >
                   <s__.TableRowHead style={{height:"50px"}}>
                     <TableCell>Name</TableCell>
-                    <TableCell>Ship To</TableCell>
-                    <TableCell>Payment Method</TableCell>
+                    <TableCell>Current number</TableCell>
+                    <TableCell>Max number</TableCell>
                     <TableCell>Address</TableCell>
                     <TableCell align="right" style={{display:this.state.deletemode?"":"none"}}>
                       <Checkbox 

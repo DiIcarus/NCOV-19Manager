@@ -100,10 +100,10 @@ class InfoTableUser extends Component<Props, State> {
     // console.log(this.state);
     this.GETAll();
     this.GETAllShift();
-    setInterval(()=>{
-      console.log("state",this.state);
-      // console.log(this.props.UserssignedState.token);
-    },2000)
+    // setInterval(()=>{
+    //   console.log("state",this.state);
+    //   // console.log(this.props.UserssignedState.token);
+    // },2000)
   }
 
   
@@ -153,7 +153,8 @@ class InfoTableUser extends Component<Props, State> {
       this.adminApi.getAll(this.token,(res:any)=>{
         console.log("Get all",res.data);
         this.setState({
-          users:res.data.users
+          users:res.data.users,
+          numberPaper:(Math.floor(Number.parseInt(res.data.total)/Number.parseInt(res.data.amount))) +1,
         })
       }, 
       (err:string)=>{
@@ -168,7 +169,8 @@ class InfoTableUser extends Component<Props, State> {
       this.shiftApi.getAll(this.token,(res:any)=>{
         console.log("catruc",res.data.caTruc);
         this.setState({
-          shift:res.data.caTruc
+          shift:res.data.caTruc,
+          numberPaper:(Math.floor(Number.parseInt(res.data.total)/Number.parseInt(res.data.amount))) +1,
         })
       }, 
       (err:string)=>{
@@ -499,7 +501,7 @@ class InfoTableUser extends Component<Props, State> {
         <s__.FeatureArea>
           <s__.FeatureButton onClick={this.GETAll}><p>Refresh</p></s__.FeatureButton>
           {/* <s__.FeatureButton onClick={()=>this.setShowPopupByType("insert")}><p>Add Shift To Doctor</p></s__.FeatureButton> */}
-          <s__.FeatureButton style={{backgroundColor:this.state.insertmode?"tomato":""}} onClick={this.setInsertMode}><p>{this.state.insertmode?"Cancel":"Add Shift To Doctor"}</p></s__.FeatureButton>
+          <s__.FeatureButton style={{backgroundColor:this.state.insertmode?"tomato":""}} onClick={this.setInsertMode}><p>{this.state.insertmode?"Cancel":"Shift Register"}</p></s__.FeatureButton>
           <s__.FeatureButton style={{backgroundColor:this.state.updatemode?"tomato":""}} onClick={this.setUpdateMode}><p>{this.state.updatemode?"Cancel":"Update User"}</p></s__.FeatureButton>
           <s__.SearchInput
             id="maxNumber"
@@ -551,6 +553,16 @@ class InfoTableUser extends Component<Props, State> {
     }
   }
 
+  ActiveIdUser = (id:string) =>{
+    console.log(id);
+    this.adminApi.activeDoctor(this.token,id,(res:any)=>{
+      console.log("succesful",res);
+    },(err:any)=>{
+      console.log("fail",err);
+    })
+    this.GETAll()
+  }
+
   renderChildTableRoom = () => {
     console.log("showinfo",this.state.users);
     return this.state.users.map((row) => (
@@ -563,6 +575,7 @@ class InfoTableUser extends Component<Props, State> {
         <TableCell >{row.phoneNumber}</TableCell>
         <TableCell >{row.dateOfBirth}</TableCell>
         <TableCell >{row.email}</TableCell>
+        <TableCell style={{color:row.isActive?"green":"tomato",cursor:"pointer"}} onClick={()=>this.ActiveIdUser(row._id)}>{row.isActive?"active":"deactive"}</TableCell>
         <TableCell align="right" style={{display:this.state.deletemode?"":"none"}} >
           <Checkbox 
             size="small"
@@ -587,6 +600,7 @@ class InfoTableUser extends Component<Props, State> {
               <TableCell>PhoneNumber</TableCell>
               <TableCell>DateOfBirth</TableCell>
               <TableCell>Email</TableCell>
+              <TableCell>isActive</TableCell>
               <TableCell align="right" style={{display:this.state.deletemode?"":"none"}}>
                 <Checkbox
                   size="small"
@@ -604,7 +618,8 @@ class InfoTableUser extends Component<Props, State> {
   }
 
   renderPaper = () =>{
-    let arr = new Array(this.state.numberPaper);
+    // let arr = new Array(this.state.numberPaper);
+    console.log("Number",this.state.numberPaper)
     return (
         <s__.PaperDiv>
           {
